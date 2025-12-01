@@ -1,4 +1,4 @@
-package com.cobase.part1;
+package com.main.part1;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -6,9 +6,7 @@ import java.nio.file.Path;
 import java.util.logging.Logger;
 
 public class Main {
-    private static final String PROBABLE_INPUT_PROBLEMS = "probable-input-problems.txt";
-    private static final String EXAMPLE_INPUT_PATH = "example-input.txt";
-    private static final String REAL_INPUT_PATH = "real-input.txt";
+    private static final String REAL_INPUT_PATH = "day_01/real-input.txt";
 
     private static final Logger logger = Logger.getLogger("Main");
 

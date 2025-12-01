@@ -1,4 +1,4 @@
-package com.cobase.part2;
+package com.main.part2;
 
 public class Dial {
     private static final int MAX_DIAL_VALUE = 100;
@@ -16,27 +16,21 @@ public class Dial {
      */
     public int turnLeft(int distance) {
         int oldPointer = this.currentPointer;
-        this.currentPointer = Math.abs(currentPointer - (distance % MAX_DIAL_VALUE) + MAX_DIAL_VALUE) % MAX_DIAL_VALUE;
-        
-        // Check zero hit count for turning the dial left
-        int zeroHitCount = this.checkZeroHitCount(oldPointer, distance);
-        if (this.currentPointer == 0) {
-            return zeroHitCount + 1;
-        }
+        int effectiveDistance = distance % MAX_DIAL_VALUE;
+        this.currentPointer = Math.abs(currentPointer - effectiveDistance + MAX_DIAL_VALUE) % MAX_DIAL_VALUE;
 
+        // Check zero hit count for turning the dial left
+        int zeroHitCount = this.checkZeroHitCountLeft(oldPointer, distance);
         return zeroHitCount;
     }
 
     public int turnRight(int distance) {
         int oldPointer = this.currentPointer;
-        this.currentPointer = (this.currentPointer + (distance % MAX_DIAL_VALUE)) % MAX_DIAL_VALUE;
+        int effectiveDistance = distance % MAX_DIAL_VALUE;
+        this.currentPointer = (this.currentPointer + effectiveDistance) % MAX_DIAL_VALUE;
 
         // Check zero hit count for turning the dial left   
-        int zeroHitCount = this.checkZeroHitCount(oldPointer, distance);
-        if (this.currentPointer == 0) {
-            return zeroHitCount + 1;
-        }
-        
+        int zeroHitCount = this.checkZeroHitCountRight(oldPointer, distance);
         return zeroHitCount;
     }
 
@@ -48,7 +42,11 @@ public class Dial {
         return currentPointer;
     }
 
-    private int checkZeroHitCount(int pointer, int distance) {
-        return Math.floorDiv(pointer + distance, MAX_DIAL_VALUE - 1);
+    private int checkZeroHitCountLeft(int pointer, int distance) {
+        return Math.abs(Math.floorDiv(pointer - distance, MAX_DIAL_VALUE));
+    }
+
+    private int checkZeroHitCountRight(int pointer, int distance) {
+        return Math.floorDiv(pointer + distance, MAX_DIAL_VALUE);
     }
 }

@@ -1,14 +1,14 @@
-package com.cobase.part2;
+package com.main.part2;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.logging.FileHandler;
 import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 public class Main {
-    private static final String PROBABLE_INPUT_PROBLEMS = "probable-input-problems.txt";
-    private static final String EXAMPLE_INPUT_PATH = "example-input.txt";
-    private static final String REAL_INPUT_PATH = "real-input.txt";
+    private static final String REAL_INPUT_PATH = "day_01/real-input.txt";
 
     private static final Logger logger = Logger.getLogger("Main");
 
@@ -16,6 +16,11 @@ public class Main {
         Path inputPath = Path.of(REAL_INPUT_PATH);
         String input = Files.readString(inputPath);
         Dial dial = new Dial(50);
+
+        FileHandler handler = new FileHandler("day_01/output.txt", false);
+        SimpleFormatter formatter = new SimpleFormatter();
+        handler.setFormatter(formatter);
+        logger.addHandler(handler);
 
         int password = 0;
         for (String line : input.lines().toList()) {
@@ -34,10 +39,13 @@ public class Main {
                     throw new UnsupportedOperationException();
             }
 
-            System.out.printf("%d -> %s%d -> %d%n", oldPointer, direction, distance, dial.getCurrentPointer());
+            String debugMessage = String.format("%d -> move: %s%d pwd: %d -> %d%n", oldPointer, direction, distance, password,
+                    dial.getCurrentPointer());
+
+            logger.info(debugMessage);
         }
 
         String finalPassword = String.format("Password: %d", password);
-        System.out.println(finalPassword);
+        logger.info(finalPassword);
     }
 }

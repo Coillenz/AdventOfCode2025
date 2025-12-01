@@ -1,4 +1,4 @@
-package com.cobase.part1;
+package com.main.part1;
 
 public class Dial {
     private static final int MAX_DIAL_VALUE = 100;

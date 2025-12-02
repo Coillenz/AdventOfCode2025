@@ -3,7 +3,7 @@ import math
 def get_next_power_of_two(number: int) -> int:
     return pow(10, math.ceil(math.log10(number + 1)))
 
-with open('day_02/test-input.txt', 'r') as input:
+with open('day_02/real-input.txt', 'r') as input:
     sequences = input.read().replace('\n', '').split(',')
     
     invalid_sequences: dict[str, list[str]] = {}

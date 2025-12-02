@@ -20,8 +20,7 @@ public class Dial {
         this.currentPointer = (currentPointer - effectiveDistance + MAX_DIAL_VALUE) % MAX_DIAL_VALUE;
 
         // Check zero hit count for turning the dial left
-        int zeroHitCount = this.checkZeroHitCountLeft(oldPointer, distance);
-        return zeroHitCount;
+        return this.checkZeroHitCountLeft(oldPointer, distance);
     }
 
     public int turnRight(int distance) {
@@ -30,8 +29,7 @@ public class Dial {
         this.currentPointer = (this.currentPointer + effectiveDistance) % MAX_DIAL_VALUE;
 
         // Check zero hit count for turning the dial left   
-        int zeroHitCount = this.checkZeroHitCountRight(oldPointer, distance);
-        return zeroHitCount;
+        return this.checkZeroHitCountRight(oldPointer, distance);
     }
 
     public boolean isAtPosZero() {
@@ -43,7 +41,7 @@ public class Dial {
     }
 
     private int checkZeroHitCountLeft(int pointer, int distance) {
-        return Math.abs(Math.floorDiv(pointer + distance, MAX_DIAL_VALUE));
+        return Math.abs(Math.floorDiv(pointer - distance, MAX_DIAL_VALUE));
     }
 
     private int checkZeroHitCountRight(int pointer, int distance) {

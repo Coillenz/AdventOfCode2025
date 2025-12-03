@@ -1,44 +1,37 @@
 import math
+import json
 
 def get_next_power_of_two(number: int) -> int:
     return pow(10, math.ceil(math.log10(number + 1)))
 
 def is_sequenced(input: str) -> bool:
-    # Register the initial sequence
-    initial_sequence: list[str] = []
-    
-    ptr = 0
-    while ptr < len(input):
-        if input[ptr] == initial_sequence[0]:
-            break
-
-        initial_sequence.append(input[ptr])
-        ptr += 1
-    
-    if len(initial_sequence) == 0 or len(input) % len(initial_sequence) != 0:
+    # Run from index 0 to half of input length
+    input_len = len(input)
+    if input_len == 1:
         return False
-    
-    sequences: list[str] = []
-    current_sequence: list[str] = []
-    while ptr < len(input):
-        sequence_position = ptr % len(initial_sequence)        
-        if sequence_position == 0 and input[ptr] == initial_sequence[0]:
-            sequences.append(''.join(current_sequence))
-            current_sequence = []
 
-        if input[ptr] != initial_sequence[sequence_position]:
-            return False
+    pivot = math.ceil(len(input) / 2)
+
+    for sequence_len in range(1, pivot + 1):
+        if input_len % sequence_len != 0:
+            continue
         
-        current_sequence.append(input[ptr])
-        ptr += 1
+        contains_sequence = True
+        sequence = input[0:sequence_len]
+        for sequence_idx in range(1, int(input_len / sequence_len)):
+            sequence_start = sequence_idx * sequence_len
+            sequence_end = sequence_start + sequence_len
+            if sequence != input[sequence_start:sequence_end]:
+                contains_sequence = False
+                break
+        
+        if contains_sequence:
+            return True
+        
+    return False
+                
 
-    sequences.append(''.join(current_sequence))
-    print(sequences)
-    return True
-
-    
-
-with open('day_02/test-input.txt', 'r') as input:
+with open('day_02/real-input.txt', 'r') as input:
     sequences = input.read().replace('\n', '').split(',')
     
     invalid_sequences: dict[str, list[str]] = {}
@@ -50,13 +43,14 @@ with open('day_02/test-input.txt', 'r') as input:
         current_number: str = min
         while int(current_number) <= int(max):
             if is_sequenced(current_number):
-                current_number = str(int(current_number) + 1)
+                invalid_ids.append(current_number)
+
+            current_number = str(int(current_number) + 1)
 
         if len(invalid_ids) > 0:
             invalid_sequences[seq] = invalid_ids
 
     total = 0
-    print(invalid_sequences)
     for invalid_sequence in invalid_sequences:
         for invalid_id in invalid_sequences[invalid_sequence]:
             total += int(invalid_id)

@@ -1,5 +1,4 @@
 import math
-import json
 
 def get_next_power_of_two(number: int) -> int:
     return pow(10, math.ceil(math.log10(number + 1)))

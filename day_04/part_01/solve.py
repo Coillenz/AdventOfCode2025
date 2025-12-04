@@ -66,7 +66,7 @@ def prepare_input(environment: str) -> tuple[list[int], int]:
         result: list[int] = []
         line_width: int = 0
 
-        for line in map(lambda line: line.replace('\n', ''), input.readlines()):
+        for line in [line.replace('\n', '') for line in input.readlines()]:
             if line_width == 0:
                 line_width = len(line)
 

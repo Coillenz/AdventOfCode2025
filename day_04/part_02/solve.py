@@ -1,6 +1,7 @@
 import math
 
 paper_char = ord('@')
+found_char = ord('X')
 diameter = 3
 
 def is_surrounded_by_4_rolls(idx: int, input: list[int], line_width: int):
@@ -31,11 +32,27 @@ def is_surrounded_by_4_rolls(idx: int, input: list[int], line_width: int):
 
 def count_accessible_rolls(input: list[int], line_width: int) -> list[int]:
     found_rolls_positions: list[int] = []
+
     for idx, item in enumerate(input):
         if item != paper_char:
             continue
 
         if not is_surrounded_by_4_rolls(idx, input, line_width):
             found_rolls_positions.append(idx)
+    
+    return found_rolls_positions
+
+def count_all_accessible_rolls(input: list[int], line_width: int) -> list[int]:
+    current_input = input.copy()
+    found_rolls_positions: list[int] = []
+
+    while True:
+        found_rolls_positions_temp = count_accessible_rolls(current_input, line_width)
+        if len(found_rolls_positions_temp) == 0:
+            break
+
+        found_rolls_positions.extend(found_rolls_positions_temp)
+        for idx in found_rolls_positions_temp:
+            current_input[idx] = found_char
     
     return found_rolls_positions

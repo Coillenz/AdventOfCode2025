@@ -14,4 +14,4 @@ def load_input(env: str) -> tuple[list[int], list[tuple[int, int]]]:
     
 [ids, ranges] = load_input('real')
 print(len(part_01.find_fresh_ingredient_ids(ids, ranges)))
-print(len(part_02.find_possible_fresh_ingredient_ids(ranges)))
+print(part_02.count_possible_fresh_ingredient_ids(ranges))

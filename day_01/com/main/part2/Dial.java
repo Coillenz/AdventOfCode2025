@@ -41,7 +41,7 @@ public class Dial {
     }
 
     private int checkZeroHitCountLeft(int pointer, int distance) {
-        return Math.abs(Math.floorDiv(pointer - distance, MAX_DIAL_VALUE));
+        return Math.floorDiv((pointer - 1), 100) - Math.floorDiv((pointer - distance - 1), MAX_DIAL_VALUE);
     }
 
     private int checkZeroHitCountRight(int pointer, int distance) {

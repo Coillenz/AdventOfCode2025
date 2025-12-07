@@ -17,7 +17,6 @@ public class Main {
 
         int password = 0;
         for (String line : input.lines().toList()) {
-            int oldPointer = dial.getCurrentPointer();
             char direction = line.charAt(0);
             int distance = Integer.parseInt(line.substring(1));
             
@@ -31,11 +30,6 @@ public class Main {
                 default:
                     throw new UnsupportedOperationException();
             }
-
-            String debugMessage = String.format("%d -> move: %s%d pwd: %d -> %d%n", oldPointer, direction, distance, password,
-                    dial.getCurrentPointer());
-
-            logger.info(debugMessage);
         }
 
         String finalPassword = String.format("Password: %d", password);

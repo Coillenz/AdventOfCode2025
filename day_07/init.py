@@ -25,7 +25,7 @@ def load_input(env: str) -> tuple[list[list[str]], int]:
 
     return (grid, start_pos)
 
-[grid, start_pos] = load_input('test')
+[grid, start_pos] = load_input('real')
 result_1 = part_01.calculate_tachyon_hits(grid, start_pos)
 visualize(grid, result_1)
 print("part_01: ", len(result_1))

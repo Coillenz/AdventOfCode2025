@@ -2,25 +2,25 @@ def calculate_tachyon_timelines(hits: list[tuple[int, int]]) -> int:
   hit_grid: list[list[int]] = []
 
   last_line = 0
-  for hit in sorted(hits, key=lambda hit: hit[1]):
-    if hit[1] > last_line:
+  for hit_pos in sorted(hits, key=lambda hit: hit[1]):
+    if hit_pos[1] > last_line:
       hit_grid.append([])
-      last_line = hit[1]
+      last_line = hit_pos[1]
 
-    hit_grid[-1].append(hit[0])
-  
+    hit_grid[-1].append(hit_pos[0])
+
+  highest_idx = max(map(lambda line: max(line), [*hit_grid]))
+
+  timeline_map: list[int] = list()
+  for _ in range(highest_idx + 2):
+    timeline_map.append(0)
+
+  timeline_map[hit_grid[0][0]] = 1
+
   for line in hit_grid:
-    line.sort()
+    for hit_pos in line:
+      timeline_map[hit_pos - 1] += timeline_map[hit_pos]
+      timeline_map[hit_pos + 1] += timeline_map[hit_pos]
+      timeline_map[hit_pos] = 0
 
-  return calculate_tachyon_timelines_recursive(hit_grid, 0, hit_grid[0][0])
-
-def calculate_tachyon_timelines_recursive(hit_grid: list[list[int]], curr_line: int, curr_pos: int) -> int:
-  if curr_line == len(hit_grid):
-    return 1
-  
-  if curr_pos in hit_grid[curr_line]:
-    timelines = calculate_tachyon_timelines_recursive(hit_grid, curr_line + 1, curr_pos - 1)
-    timelines += calculate_tachyon_timelines_recursive(hit_grid, curr_line + 1, curr_pos + 1)
-    return timelines
-  
-  return calculate_tachyon_timelines_recursive(hit_grid, curr_line + 1, curr_pos)
+  print(sum(timeline_map))
